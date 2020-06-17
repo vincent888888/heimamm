@@ -7,47 +7,46 @@
         <div class="line"></div>
         <span class="t2">用户登陆</span>
       </div>
-        <el-form class="login-form" :model="form" label-width="0px">
-          <el-form-item >
-            <el-input placeholder="请输入手机号" prefix-icon="el-icon-user" v-model="form.phone"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input
-              placeholder="请输入密码"
-              prefix-icon="el-icon-lock"
-              show-password
-              v-model="form.password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-row>
-              <el-col :span="16">
-                <el-input
-                  placeholder="请输入验证码"
-                  prefix-icon="el-icon-key"
-                  show-password
-                  v-model="form.code"
-                ></el-input>
-              </el-col>
-              <el-col :span="8">
-                <img class="code" src="http://123.57.150.216:8567/captcha?type=login" alt />
-              </el-col>
-            </el-row>
-          </el-form-item>
-          <el-form-item label-width="0px">
-            <el-checkbox v-model="checked">
-              我已阅读并同意
-              <el-link type="primary">用户协议</el-link>和
-              <el-link type="primary">隐私条款</el-link>
-            </el-checkbox>
-          </el-form-item>
-          <el-form-item label-width="0px">
-            <el-button class="btn" type="primary">登录</el-button>
-            <br />
-            <el-button class="btn" type="primary">注册</el-button>
-          </el-form-item>
-        </el-form>
-      
+      <el-form class="login-form" ref="form" :model="form" :rules="rules">
+        <el-form-item prop="phone">
+          <el-input placeholder="请输入手机号" prefix-icon="el-icon-user" v-model="form.phone"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            placeholder="请输入密码"
+            prefix-icon="el-icon-lock"
+            show-password
+            v-model="form.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="code">
+          <el-row>
+            <el-col :span="16">
+              <el-input
+                placeholder="请输入验证码"
+                prefix-icon="el-icon-key"
+                show-password
+                v-model="form.code"
+              ></el-input>
+            </el-col>
+            <el-col :span="8">
+              <img class="code" src="http://123.57.150.216:8567/captcha?type=login" alt />
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item prop="isChecked">
+          <el-checkbox v-model="form.isChecked">
+            我已阅读并同意
+            <el-link type="primary">用户协议</el-link>和
+            <el-link type="primary">隐私条款</el-link>
+          </el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button class="btn" type="primary" @click="toLogin">登录</el-button>
+          <br />
+          <el-button class="btn"  type="primary">注册</el-button>
+        </el-form-item>
+      </el-form>
     </div>
     <img class="right" src="@/assets/img/login_banner_ele.png" alt />
   </div>
@@ -60,9 +59,32 @@ export default {
       form: {
         phone: "",
         password: "",
-        code: ""
+        code: "",
+        isChecked: ""
+      },
+      rules: {
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          { min: 11, max: 11, message: "请输入正确的手机号", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, max: 12, message: "请输入正确的密码", trigger: "blur" }
+        ],
+        code: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          { min: 4, max: 4, message: "请输入正确的验证码", trigger: "blur" }
+        ],
+        isChecked: [{ required: true, message: "请勾选协议", trigger: "blur" }]
       }
     };
+  },
+  methods: {
+    toLogin() {
+      this.$refs.form.validate(result => {
+        window.console.log(result);
+      });
+    }
   }
 };
 </script>
