@@ -7,17 +7,16 @@
         <div class="line"></div>
         <span class="t2">用户登陆</span>
       </div>
-      <div class="bd">
-        <el-form ref="form" :model="form" label-width="0px">
+        <el-form class="login-form" :model="form" label-width="0px">
           <el-form-item >
-            <el-input placeholder="请输入手机号" prefix-icon="el-icon-user" v-model="form.usname"></el-input>
+            <el-input placeholder="请输入手机号" prefix-icon="el-icon-user" v-model="form.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-input
               placeholder="请输入密码"
               prefix-icon="el-icon-lock"
               show-password
-              v-model="form.pswd"
+              v-model="form.password"
             ></el-input>
           </el-form-item>
           <el-form-item>
@@ -31,7 +30,7 @@
                 ></el-input>
               </el-col>
               <el-col :span="8">
-                <img class="img" src="http://123.57.150.216:8567/captcha?type=login" alt />
+                <img class="code" src="http://123.57.150.216:8567/captcha?type=login" alt />
               </el-col>
             </el-row>
           </el-form-item>
@@ -48,7 +47,7 @@
             <el-button class="btn" type="primary">注册</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      
     </div>
     <img class="right" src="@/assets/img/login_banner_ele.png" alt />
   </div>
@@ -59,8 +58,8 @@ export default {
   data() {
     return {
       form: {
-        usname: "",
-        pswd: "",
+        phone: "",
+        password: "",
         code: ""
       }
     };
@@ -88,6 +87,7 @@ export default {
     .top {
       display: flex;
       align-items: center;
+      margin-bottom: 28px;
       .logo {
         width: 22px;
         height: 17px;
@@ -112,15 +112,22 @@ export default {
         color: rgba(13, 12, 12, 1);
       }
     }
-    .bd {
-      margin-top: 20px;
-      .img {
-        height: 100%;
+    .login-form {
+      .el-input__inner {
+        height: 45px;
+      }
+      .el-form-item {
+        margin-bottom: 25px;
+      }
+      .code {
         width: 100%;
+        height: 45px;
       }
       .btn {
         width: 100%;
-        margin-bottom: 20px;
+        &:nth-child(1) {
+          margin-bottom: 26px;
+        }
       }
     }
   }
